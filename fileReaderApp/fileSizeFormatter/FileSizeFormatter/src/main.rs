@@ -1,8 +1,23 @@
+use std::env;
+
 enum FileSize {
     Bytes(u64),
     Kilobytes(f64),
     Megabytes(f64),
     Gigabytes(f64),
+}
+
+fn Unformat_size(size: u64, sizeSuffix: string) -> u64
+{
+    let multiplier = match sizeSuffix {
+        "KB"=> 1000,
+        "MB" => 1_000_000,
+        "GB" => 1_000_000_000,
+        _=> 1,
+    };
+
+    let storage = size * multiplier;
+
 }
 
 fn format_size(size: u64) -> String {
@@ -24,5 +39,15 @@ fn format_size(size: u64) -> String {
 
 fn main() {
     let result = format_size(6888837399);
-    println!("{}", result)
+    println!("{}", result);
+
+    let args: Vec<String> = env::args().collect();
+
+    let number = args[1].parse::<i32>().unwrap(); 
+    //ToDO: add exception handling 
+    let sufix = args[2];
+
+    // The first argument is the size that was used to call the program. Must use quotes to
+    // read this as a single argument
+    println!("{} {}", args[1], args[2]);
 }
