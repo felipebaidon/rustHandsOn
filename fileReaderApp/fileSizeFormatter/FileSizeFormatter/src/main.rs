@@ -7,17 +7,16 @@ enum FileSize {
     Gigabytes(f64),
 }
 
-fn Unformat_size(size: u64, sizeSuffix: string) -> u64
+fn Unformat_size(size: u64, sizeSuffix: &str) -> u64
 {
-    let multiplier = match sizeSuffix {
-        "KB"=> 1000,
-        "MB" => 1_000_000,
-        "GB" => 1_000_000_000,
-        _=> 1,
+        let storage = match sizeSuffix.to_lowercase().as_str() {
+        "kb"=> size*1000,
+        "mb"=> size*1_000_000,
+        "gb"=> size*1_000_000_000,
+        _=> size,
     };
 
-    let storage = size * multiplier;
-
+    storage
 }
 
 fn format_size(size: u64) -> String {
@@ -38,14 +37,14 @@ fn format_size(size: u64) -> String {
 
 
 fn main() {
-    let result = format_size(6888837399);
-    println!("{}", result);
 
     let args: Vec<String> = env::args().collect();
 
-    let number = args[1].parse::<i32>().unwrap(); 
+    let number = args[1].parse::<u64>().unwrap(); 
     //ToDO: add exception handling 
-    let sufix = args[2];
+    let sufix = &args[2];
+
+    let result = Unformat_size(number, sufix);
 
     // The first argument is the size that was used to call the program. Must use quotes to
     // read this as a single argument
