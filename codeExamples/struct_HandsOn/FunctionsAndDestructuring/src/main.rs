@@ -14,17 +14,30 @@ struct Unit;
 struct Pair(i32, f32);
 
 // A struct with two fields
+#[derive(Debug)]
 struct Point {
     x: f32,
     y: f32,
 }
 
 // Structs can be reused as fields of another struct
+#[derive(Debug)]
 struct Rectangle {
     // A rectangle can be specified by where the top left and bottom right
     // corners are in space.
     top_left: Point,
     bottom_right: Point,
+}
+
+fn rect_area(rectangle: &Rectangle)-> f32
+{
+    //Assumming user inputs perfect rectangle
+    let width = rectangle.top_left.y - rectangle.bottom_right.y;
+    let length = rectangle.bottom_right.x - rectangle.top_left.x;
+
+    let area = width * length;
+
+    area.abs()
 }
 
 fn main() {
@@ -37,8 +50,8 @@ fn main() {
     println!("{:?}", peter);
 
     // Instantiate a `Point`
-    let point: Point = Point { x: 5.2, y: 0.4 };
-    let another_point: Point = Point { x: 10.3, y: 0.2 };
+    let point: Point = Point { x: 5.2, y: 1.0 };
+    let another_point: Point = Point { x: 10.3, y: 4.0 };
 
     // Access the fields of the point
     println!("point coordinates: ({}, {})", point.x, point.y);
@@ -59,6 +72,10 @@ fn main() {
         top_left: Point { x: left_edge, y: top_edge },
         bottom_right: bottom_right,
     };
+    println!("Rectangle has: {:?}", _rectangle);
+
+    let area = rect_area(&_rectangle );
+    println!("Rectangle area is: {:?}", area);
 
     // Instantiate a unit struct
     let _unit = Unit;
@@ -73,4 +90,6 @@ fn main() {
     let Pair(integer, decimal) = pair;
 
     println!("pair contains {:?} and {:?}", integer, decimal);
+
+
 }
