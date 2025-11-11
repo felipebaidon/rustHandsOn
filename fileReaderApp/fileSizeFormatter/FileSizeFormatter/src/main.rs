@@ -7,6 +7,13 @@ enum FileSize {
     Gigabytes(f64),
 }
 
+struct FileSizeStruct {
+    bytes : u64, 
+    kilobytes : f64,
+    megabytes: f64,
+    gigabytes: f64,
+}
+
 fn Unformat_size(size: u64, sizeSuffix: &str) -> u64
 {
         let storage = match sizeSuffix.to_lowercase().as_str() {
@@ -28,13 +35,15 @@ fn format_size(filesize: &FileSize) -> String {
     }
 }
 
-fn all_sizes(size: u64) -> Vec<FileSize> {
-    vec![
-        FileSize::Bytes(size),
-        FileSize::Kilobytes(size as f64 / 1_000.0),
-        FileSize::Megabytes(size as f64 / 1_000_000.0),
-        FileSize::Gigabytes(size as f64 / 1_000_000_000.0),
-    ]
+fn all_sizes(size: u64) -> FileSizeStruct {
+    let storage = FileSizeStruct{bytes: size, kilobytes: size as f64 /1000.0, megabytes: size as f64/1000000.0, gigabytes:size as f64/1000000000.0};
+    storage
+    // vec![
+    //     FileSize::Bytes(size),
+    //     FileSize::Kilobytes(size as f64 / 1_000.0),
+    //     FileSize::Megabytes(size as f64 / 1_000_000.0),
+    //     FileSize::Gigabytes(size as f64 / 1_000_000_000.0),
+    // ]
 }
 
 
@@ -49,8 +58,8 @@ fn main() {
 
     let result_list = all_sizes(resultBytes);
 
-    for fs in &result_list {
-        println!("{}", format_size(fs));
-    }
+    // for fs in &result_list {
+    //     println!("{}", format_size(fs));
+    // }
 
 }
