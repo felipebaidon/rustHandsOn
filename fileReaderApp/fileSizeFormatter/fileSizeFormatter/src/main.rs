@@ -1,3 +1,5 @@
+use std::env;
+
 enum FileSize {
     Bytes(u64),
     Kilobytes(f64),
@@ -5,24 +7,55 @@ enum FileSize {
     Gigabytes(f64),
 }
 
-fn format_size(size: u64) -> String {
-    let filesize = match size {
-        0..=999 => FileSize::Bytes(size),
-        1000..=999_999 => FileSize::Kilobytes(size as f64 / 1000.0),
-        1_000_000..=999_999_999 => FileSize::Megabytes(size as f64 / 1_000_000.0),
-        _ => FileSize::Gigabytes(size as f64 / 1_000_000_000.0),
+#[derive(Debug)]
+struct FileSizeStruct {
+    bytes: u64,
+    kilobytes: f64,
+    megabytes: f64,
+    gigabytes: f64,
+}
+
+fn Unformat_size(size: u64, sizeSuffix: &str) -> u64 {
+    let storage = match sizeSuffix.to_lowercase().as_str() {
+        "kb" => size * 1000,
+        "mb" => size * 1_000_000,
+        "gb" => size * 1_000_000_000,
+        _ => size,
     };
 
+    storage
+}
+
+fn format_size(filesize: &FileSize) -> String {
     match filesize {
-        FileSize::Bytes(bytes) => format!("{} bytes", bytes),
-        FileSize::Kilobytes(kb) => format!("{:.2} KB", kb),
-        FileSize::Megabytes(mb) => format!("{:.2} MB", mb),
-        FileSize::Gigabytes(gb) => format!("{:.2} GB", gb),
+        FileSize::Bytes(bytes) => format!("bytes: {} bytes", bytes),
+        FileSize::Kilobytes(kb) => format!("kilobytes: {} kilobytes", kb),
+        FileSize::Megabytes(mb) => format!("megabytes: {} megabytes", mb),
+        FileSize::Gigabytes(gb) => format!("gigabytes: {} gigabytes", gb),
     }
 }
 
+fn all_sizes(size: u64) -> FileSizeStruct {
+    let storage = FileSizeStruct {
+        bytes: size,
+        kilobytes: size as f64 / 1000.0,
+        megabytes: size as f64 / 1000000.0,
+        gigabytes: size as f64 / 1000000000.0,
+    };
+
+    storage
+}
 
 fn main() {
-    let result = format_size(6888837399);
-    println!("{}", result)
+    let args: Vec<String> = env::args().collect();
+    let number = args[1].parse::<u64>().unwrap();
+    
+    //ToDO: add exception handling
+    let sufix = &args[2];
+
+    let resultBytes = Unformat_size(number, sufix);
+
+    let result_list = all_sizes(resultBytes);
+
+    println!("{:?}", result_list);
 }

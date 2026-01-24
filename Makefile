@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 DIR = .
+CHANGE = -Z unstable-options -C $(DIR)
 
 .PHONY: help
 
@@ -9,17 +10,17 @@ help:
 ##ToDo: implement clean based on passed directory
 ##ToDO: implement cle an all 
 clean: ## Clean the project using cargo
-	cargo -Z unstable-options -C $(DIR) clean
+	cargo $(CHANGE) clean
 
 #ToDo: implement build all
 build: ## Build the rust passed directory using cargo, for this the rust nightly channel is used
 	echo $(DIR)
-	cargo -Z unstable-options -C $(DIR) build
+	cargo $(CHANGE) build
 
 lint: ## Lint the project using cargo
 	@rustup component add clippy 2> /dev/null
-	cargo clippy
+	cargo $(CHANGE) clippy
 
 fmt: ## Format the project using cargo
 	@rustup component add rustfmt 2> /dev/null
-	cargo fmt
+	cargo $(CHANGE) fmt
