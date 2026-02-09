@@ -1,7 +1,7 @@
-use my_lib::lib.rs;
+use my_library::add;
 
 fn main() {
-    let result = sum(5,10);
+    let result = add(5,10);
 
     println!("result is : {}", result);
 }

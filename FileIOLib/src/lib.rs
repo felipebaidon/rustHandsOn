@@ -1,5 +1,6 @@
 use std::io::BufRead;
 use std:: fs:: File;
+use std:: fs:: write;
 use std:: io:: BufReader;
 
 pub fn create_file(filename: String) -> u8
@@ -9,13 +10,6 @@ pub fn create_file(filename: String) -> u8
     return 0
 
 }
-
-// pub fn overwrite_file() -> u8
-// {
-//     let result = File::create(filename);
-//     result
-
-// }
 
 pub fn open_file(filename: String) -> u8
 {
@@ -55,6 +49,13 @@ pub fn read_file(filename: String) -> u8
     };
     
     result
+}
+
+pub fn append_to_file(filename: String, data: String) -> u8
+{
+    let result = write(filename, data);
+
+    return 0
 }
 
 #[cfg(test)]

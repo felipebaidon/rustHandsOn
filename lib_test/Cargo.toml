@@ -4,3 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+my_library = { version = "0.1.0", path = "../my_lib/my_library" }
